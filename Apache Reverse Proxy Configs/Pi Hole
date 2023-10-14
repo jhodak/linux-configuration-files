@@ -16,6 +16,9 @@
             Require ip 192.168.0.0/24
         </Location>
 
+        ProxyPreserveHost on
+        Header unset Origin
+
         ProxyPass / http://192.168.3.14/
         ProxyPassReverse / http://192.168.3.14/
 
