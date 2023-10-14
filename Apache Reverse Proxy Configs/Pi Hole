@@ -1,0 +1,27 @@
+<IfModule mod_ssl.c>
+    <VirtualHost *:443>
+
+    # Following 2 lines are only necessary if you are running mod_pagespeed with most filters enabled
+    ModPagespeedHonorCsp on
+    ModPagespeedRespectVary on
+
+        ServerAdmin jon@xxxx.com
+        ServerName pihole.xxxx.com
+
+        ErrorLog ${APACHE_LOG_DIR}/error.log
+        CustomLog ${APACHE_LOG_DIR}/pihole-access.log combined
+
+        <Location />
+            # Only open to Internal IP's
+            Require ip 192.168.0.0/24
+        </Location>
+
+        ProxyPass / http://192.168.3.14/
+        ProxyPassReverse / http://192.168.3.14/
+
+        SSLCertificateFile /etc/letsencrypt/live/xxxx.com/fullchain.pem
+        SSLCertificateKeyFile /etc/letsencrypt/live/xxxx.com/privkey.pem
+        Include /etc/letsencrypt/options-ssl-apache.conf
+
+    </VirtualHost>
+</IfModule>

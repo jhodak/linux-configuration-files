@@ -1,0 +1,13 @@
+<VirtualHost *:80>
+
+        ServerAdmin jon@xxxx.com
+        ServerName serviceName.xxxx.com
+
+        ErrorLog ${APACHE_LOG_DIR}/error.log
+        CustomLog ${APACHE_LOG_DIR}/serviceName-access.log combined
+
+        RewriteEngine on
+        RewriteCond %{SERVER_NAME} =serviceName.xxxx.com
+        RewriteRule ^ https://%{SERVER_NAME}%{REQUEST_URI} [END,NE,R=permanent]
+
+</VirtualHost>
