@@ -1,0 +1,46 @@
+<IfModule mod_ssl.c>
+    <VirtualHost *:443>
+
+            ServerAdmin jon@jonathanhodak.com
+            ServerName r620.jonathanhodak.com
+
+            ErrorLog ${APACHE_LOG_DIR}/error.log
+            CustomLog ${APACHE_LOG_DIR}/r620-access.log combined
+
+            <Location />
+                # Only allow from internal Ip's
+                Require ip 192.168.0.0/24
+            </Location>
+
+            SSLProxyEngine on
+            SSLProxyVerify none
+            SSLProxyCheckPeerCN off
+            SSLProxyCheckPeerName off
+            SSLProxyCheckPeerExpire off
+            ProxyRequests Off
+            ProxyPreserveHost Off
+
+            RewriteEngine on
+            RewriteCond %{HTTP:UPGRADE} ^WebSocket$ [NC]
+            RewriteCond %{HTTP:CONNECTION} ^Upgrade$ [NC]
+            RewriteRule /(.*) wss://192.168.0.10/$1 [P,L]
+
+            ProxyPass /sdk https://192.168.0.10/sdk
+            ProxyPassReverse /sdk https://192.168.0.10/sdk
+
+            ProxyPass /ticket wss://192.168.0.10/ticket
+            ProxyPassReverse /ticket wss://192.168.0.10/ticket
+
+            ProxyPass /screen https://192.168.0.10/screen
+            ProxyPassReverse /screen https://192.168.0.10/screen
+
+            ProxyPass / https://192.168.0.10/ui/ retry=1 keepalive=On
+            ProxyPassReverse / https://192.168.0.10/ui/
+
+            RequestHeader set X-Forwarded-HTTPS "0"
+
+            SSLCertificateFile /etc/letsencrypt/live/jonathanhodak.com/fullchain.pem
+            SSLCertificateKeyFile /etc/letsencrypt/live/jonathanhodak.com/privkey.pem
+            Include /etc/letsencrypt/options-ssl-apache.conf
+    </VirtualHost>
+</IfModule>
