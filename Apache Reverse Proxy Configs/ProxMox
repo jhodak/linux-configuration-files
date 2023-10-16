@@ -17,26 +17,22 @@
         ProxyPreserveHost on
 
         <Location />
-            # Only let internal Ip's hit this
-            Require ip 192.168.0.0/24
+                # Replace the next line with your home network IP range
+                Require ip 192.168.0.0/24
         </Location>
 
-        <Location />
-            ProxyPass https://192.168.3.50:8006/
-            ProxyPassReverse https://192.168.3.50:8006/
-        </Location>
+        RewriteEngine on
+        RewriteCond %{HTTP:Connection} Upgrade [NC]
+        RewriteCond %{HTTP:Upgrade} websocket [NC]
+        RewriteRule /(.*) wss://192.168.3.50:8006/$1  [P,L]
 
-        <LocationMatch ^/(api2/json/nodes/[^\/]+/[^\/]+/[^\/]+/vncwebsocket.*)$>
-            ProxyPass wss://192.168.3.50:8006/$1 retry=0
-        </LocationMatch>
-
-        <Location /websockify>
-            ProxyPass wss://192.168.3.50:8006
-            ProxyPassReverse wss://192.168.3.50:8006
-        </Location>
+        ProxyPass        / https://192.168.3.50:8006/ flushpackets=On connectiontimeout=300 timeout=300
+        ProxyPassReverse / https://192.168.3.50:8006/
+        ProxyTimeout     600
 
         SSLCertificateFile /etc/letsencrypt/live/xxxx.com/fullchain.pem
         SSLCertificateKeyFile /etc/letsencrypt/live/xxxx.com/privkey.pem
         Include /etc/letsencrypt/options-ssl-apache.conf
+        
   </VirtualHost>
 </IfModule>
