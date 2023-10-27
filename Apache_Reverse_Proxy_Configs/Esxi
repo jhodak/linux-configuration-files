@@ -1,8 +1,8 @@
 <IfModule mod_ssl.c>
     <VirtualHost *:443>
 
-            ServerAdmin jon@jonathanhodak.com
-            ServerName r620.jonathanhodak.com
+            ServerAdmin jon@xxxx.com
+            ServerName r620.xxxx.com
 
             ErrorLog ${APACHE_LOG_DIR}/error.log
             CustomLog ${APACHE_LOG_DIR}/r620-access.log combined
@@ -39,8 +39,8 @@
 
             RequestHeader set X-Forwarded-HTTPS "0"
 
-            SSLCertificateFile /etc/letsencrypt/live/jonathanhodak.com/fullchain.pem
-            SSLCertificateKeyFile /etc/letsencrypt/live/jonathanhodak.com/privkey.pem
+            SSLCertificateFile /etc/letsencrypt/live/xxxx.com/fullchain.pem
+            SSLCertificateKeyFile /etc/letsencrypt/live/xxxx.com/privkey.pem
             Include /etc/letsencrypt/options-ssl-apache.conf
     </VirtualHost>
 </IfModule>
