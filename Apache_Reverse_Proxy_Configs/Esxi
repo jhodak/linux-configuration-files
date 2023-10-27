@@ -17,8 +17,8 @@
             SSLProxyCheckPeerCN off
             SSLProxyCheckPeerName off
             SSLProxyCheckPeerExpire off
-            ProxyRequests Off
-            ProxyPreserveHost Off
+            ProxyRequests off
+            ProxyPreserveHost off
 
             RewriteEngine on
             RewriteCond %{HTTP:UPGRADE} ^WebSocket$ [NC]
