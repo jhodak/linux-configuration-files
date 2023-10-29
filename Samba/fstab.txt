@@ -1,0 +1,1 @@
+//ip.of.server/sambashare /mnt/sambashare/ cifs cred=/home/[username]/.smb,vers=3.0,noperm 0 0
