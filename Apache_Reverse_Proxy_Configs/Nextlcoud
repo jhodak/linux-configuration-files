@@ -1,0 +1,26 @@
+<VirtualHost *:80>
+        Protocols h2 h2c http/1.1
+        ServerName 192.168.3.252
+        DocumentRoot /var/www/nextcloud
+
+        <IfModule mod_headers.c>
+          Header always set Strict-Transport-Security "max-age=15552000; includeSubDomains"
+        </IfModule>
+
+        <FilesMatch \.php$>
+          SetHandler "proxy:unix:/var/run/php/php8.2-fpm.sock|fcgi://localhost"
+        </FilesMatch>
+
+        <Directory /var/www/nextcloud/>
+                Satisfy Any
+                Require all granted
+                Options FollowSymlinks MultiViews
+                AllowOverride All
+                <IfModule mod_dav.c>
+                        Dav off
+                </IfModule>
+        </Directory>
+
+        ErrorLog /var/log/apache2/nextcloud-error.log
+        CustomLog /var/log/apache2/nextcloud-access.log common
+</VirtualHost>
