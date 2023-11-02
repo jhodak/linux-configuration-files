@@ -1,0 +1,3 @@
+  'memcache.local' => '\OC\Memcache\APCu',
+  'memcache.distributed' => '\OC\Memcache\Memcached',
+  'memcache.locking' => '\OC\Memcache\Memcached',
