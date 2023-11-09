@@ -1,0 +1,3 @@
+call conda activate sd_olive
+cd stable-diffusion-webui-directml/
+webui.bat --onnx --backend directml
